@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Saviynt UI Improvements",
+  "version": "2026.9.19",
+  "description": "Makes the Saviynt UI better optimized for non-touch devices.",
+  "minimum_chrome_version": "111",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.saviyntcloud.com/*",
+        "*://*.login.microsoftonline.com/*"
+      ],
+      "exclude_matches": [
+        "*://docs.saviyntcloud.com/*"
+      ],
+      "js": ["src/page-bridge.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "*://*.saviyntcloud.com/*",
+        "*://*.login.microsoftonline.com/*"
+      ],
+      "exclude_matches": [
+        "*://docs.saviyntcloud.com/*"
+      ],
+      "css": [
+        "lib/codemirror/codemirror.css",
+        "lib/codemirror/material.css"
+      ],
+      "js": [
+        "lib/timelines-chart.min.js",
+        "lib/vis-timeline-graph2d.min.js",
+        "lib/codemirror/codemirror.js",
+        "lib/codemirror/mode/sql.js",
+        "lib/codemirror/mode/javascript.js",
+        "lib/codemirror/mode/xml.js",
+        "lib/codemirror/mode/css.js",
+        "lib/codemirror/mode/htmlmixed.js",
+        "lib/diff.min.js",
+        "src/gm-shim.js",
+        "src/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}
