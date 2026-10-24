@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Saviynt UI Improvements",
+  "name": "# Saviynt UI Improvements",
   "version": "2026.9.19",
   "description": "Makes the Saviynt UI better optimized for non-touch devices.",
   "minimum_chrome_version": "111",
@@ -43,6 +43,21 @@
         "lib/diff.min.js",
         "src/gm-shim.js",
         "src/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "exclude_matches": [
+        "*://*.saviyntcloud.com/*",
+        "*://*.login.microsoftonline.com/*"
+      ],
+      "js": [
+        "src/gm-shim.js",
+        "src/content_no_saviynt.js"
       ],
       "run_at": "document_idle",
       "all_frames": true

@@ -1254,10 +1254,6 @@
 		return !char || !/[A-Za-z0-9_]/.test(char);
 	}
 
-	// helper: is word boundary (letters, digits, underscore treated as word char)
-	function isWordBoundary(ch) {
-		return !ch || !/[A-Za-z0-9_]/.test(ch);
-	}
 	function escapeRegExp(s) {
 		return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	}
