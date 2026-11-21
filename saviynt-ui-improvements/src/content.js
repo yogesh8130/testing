@@ -51,11 +51,11 @@
 			event.preventDefault();
 			window.open('/ECM/flatViewJobcontrol/flatViewJobList', '_blank');
 		}
-        // alt + p to open pending tasks
-        if (event.altKey && event.key === "p") {
-            event.preventDefault();
-            window.open('/ECM/workflowmanagement/pendingtasklist', '_blank');
-        }
+		// alt + p to open pending tasks
+		if (event.altKey && event.key === "p") {
+			event.preventDefault();
+			window.open('/ECM/workflowmanagement/pendingtasklist', '_blank');
+		}
 		// alt + u to open user list
 		if (event.altKey && event.key === "u") {
 			event.preventDefault();
@@ -73,20 +73,20 @@
 			event.preventDefault();
 			document.querySelector('#toggleScriptCheckbox').click();
 		}
-        if (event.altKey && event.key === "b") {
-            event.preventDefault();
-            openAnalytics('BAU Actionable Report for Incident Management');
-        }
-        if (event.altKey && event.key === "v") {
-            // to open test analytics
-            event.preventDefault();
-            openAnalytics('85229357');
-        }
+		if (event.altKey && event.key === "b") {
+			event.preventDefault();
+			openAnalytics('BAU Actionable Report for Incident Management');
+		}
+		if (event.altKey && event.key === "v") {
+			// to open test analytics
+			event.preventDefault();
+			openAnalytics('85229357');
+		}
 	});
 
 	// EXT: codemirror.css + material.css are bundled and injected via manifest.json ("css"), no remote @import needed
 
-    GM_addStyle(`
+	GM_addStyle(`
                 /* Ayu Light theme for CodeMirror 5 */
                 .CodeMirror {
                     background: #fcfcfc !important;
@@ -302,7 +302,7 @@
 					#header > div > div.Layout_page__v9Rri > div > div.MuiDrawer-root-179.MuiDrawer-docked-180.jss94.jss95 > div {z-index: 1020;}
 					
 					`);
-    GM_addStyle(` .yogi-last-clicked-cell { outline: 2px solid cornflowerblue !important; outline-offset: -2px !important; } `);
+	GM_addStyle(` .yogi-last-clicked-cell { outline: 2px solid cornflowerblue !important; outline-offset: -2px !important; } `);
 	// GLOBAL HOTKEYS
 	document.addEventListener("keydown", (event) => {
 		// RUN QUERY WITH CTRL + 1
@@ -655,7 +655,7 @@
 			requestDetailsIndexes: [],
 			requestApprovalIndexes: [],
 			analyticsKeyIndexes: [],
-            customlinkIndexes: []
+			customlinkIndexes: []
 		};
 
 		tableHeaders.forEach((header, index) => {
@@ -676,7 +676,7 @@
 			if (headerText.includes('requestid')) indices.requestDetailsIndexes.push(index);
 			if (headerText.includes('requestapproval')) indices.requestApprovalIndexes.push(index);
 			if (headerText.includes('analyticskey')) indices.analyticsKeyIndexes.push(index);
-            if (headerText.includes('customlink')) indices.customlinkIndexes.push(index);
+			if (headerText.includes('customlink')) indices.customlinkIndexes.push(index);
 		});
 
 		// Helper function to create a link and update the cell
@@ -692,7 +692,7 @@
 		}
 
 		// Process each index and update the table rows
-		const tableRows = tableElement.querySelectorAll('tbody tr');
+		const tableRows = tableElement.querySelectorAll(':scope > tbody > tr');
 		tableRows.forEach(row => {
 			Object.entries(indices).forEach(([key, indexArray]) => {
 				if (indexArray.length > 0) {
@@ -791,9 +791,9 @@
 							case 'analyticsKeyIndexes':
 								urlPrefix = '/ECM/analyticsConfigES/show/';
 								break;
-                            case 'customlinkIndexes':
-                                urlPrefix = '';
-                                break;
+							case 'customlinkIndexes':
+								urlPrefix = '';
+								break;
 						}
 
 						createLink(cell, urlPrefix, linkText, urlSuffix, cellText);
@@ -1055,14 +1055,14 @@
 		// Success condition
 		return result.data;
 	}
-    async function runAnalyticsQuery(extendedQuery) {
+	async function runAnalyticsQuery(extendedQuery) {
 		const response = await fetch("/ECM/analytics/detailspreviewV2", {
 			method: "POST",
 			headers: {
 				"content-type": "application/x-www-form-urlencoded; charset=UTF-8",
 				"x-requested-with": "XMLHttpRequest"
 			},
-            body: "analyticsQry=" + encodeURIComponent(extendedQuery) +
+			body: "analyticsQry=" + encodeURIComponent(extendedQuery) +
 				"&runtime=false&sqlAnalytics=true&externalConnection=&version=v2",
 			credentials: "include"
 		});
@@ -1101,14 +1101,14 @@
 
 		console.log("Analytics result displayed");
 	}
-    async function runAnalyticsQueryForCount(analyticsCountQuery, extendedQuery) {
+	async function runAnalyticsQueryForCount(analyticsCountQuery, extendedQuery) {
 		const response = await fetch("/ECM/analytics/detailspreviewV2", {
 			method: "POST",
 			headers: {
 				"content-type": "application/x-www-form-urlencoded; charset=UTF-8",
 				"x-requested-with": "XMLHttpRequest"
 			},
-            body: "analyticsQry=" + encodeURIComponent(analyticsCountQuery) +
+			body: "analyticsQry=" + encodeURIComponent(analyticsCountQuery) +
 				"&runtime=false&sqlAnalytics=true&externalConnection=&version=v2",
 			credentials: "include"
 		});
@@ -1151,32 +1151,32 @@
 		const countInterval = setInterval(() => {
 			// Keeps checking if the count has been loaded, then writes the count above the alert and clears the second table which we loaded just to get the result, messy but works
 			console.log("checking count");
-            // to check the record count if the count query succeeded
+			// to check the record count if the count query succeeded
 			record_count_cell = document.querySelector("#analytics-result-count td");
-            // to check if running the count query failed, returns an error like "Error while previewing control.Please check logs for detail error."
-            const note_warning = document.querySelector(".note-warning")
-            // continue to run the actual query if counting failed or succeeded, even when counting fails the actual query might run, that's saviynt for you
-            if (!record_count_cell?.textContent && !note_warning?.textContent?.includes("Error while previewing control.Please check logs for detail error.")) {
+			// to check if running the count query failed, returns an error like "Error while previewing control.Please check logs for detail error."
+			const note_warning = document.querySelector(".note-warning")
+			// continue to run the actual query if counting failed or succeeded, even when counting fails the actual query might run, that's saviynt for you
+			if (!record_count_cell?.textContent && !note_warning?.textContent?.includes("Error while previewing control.Please check logs for detail error.")) {
 				return;
 			}
 			clearInterval(countInterval);
-            if (record_count_cell?.textContent) {
-			const record_count = record_count_cell.textContent;
-			console.log("analytics_record_count", record_count);
+			if (record_count_cell?.textContent) {
+				const record_count = record_count_cell.textContent;
+				console.log("analytics_record_count", record_count);
 
 
-			let recordCountSpan = document.getElementById("recordCountSpan");
-			if (!recordCountSpan) {
-				recordCountSpan = document.createElement("div");
-				recordCountSpan.id = "recordCountSpan";
+				let recordCountSpan = document.getElementById("recordCountSpan");
+				if (!recordCountSpan) {
+					recordCountSpan = document.createElement("div");
+					recordCountSpan.id = "recordCountSpan";
+				}
+				document.getElementById("result").insertAdjacentElement("afterbegin", recordCountSpan);
+				const formattedRecords = parseInt(record_count).toLocaleString("en-US") || record_count
+				recordCountSpan.textContent = `(Total Records: ${formattedRecords})`;
+				console.log("Analytics results count displayed");
 			}
-			document.getElementById("result").insertAdjacentElement("afterbegin", recordCountSpan);
-			const formattedRecords = parseInt(record_count).toLocaleString("en-US") || record_count
-			recordCountSpan.textContent = `(Total Records: ${formattedRecords})`;
-			console.log("Analytics results count displayed");
-            }
 			analyticsCountsDiv.innerHTML = "";
-            runAnalyticsQuery(extendedQuery);
+			runAnalyticsQuery(extendedQuery);
 		}, 1000);
 
 	}
@@ -1224,7 +1224,7 @@
 			const editor = CodeMirror.fromTextArea(textarea, {
 				lineNumbers: true,
 				mode: mode,
-                // theme: "material",
+				// theme: "material",
 				indentWithTabs: false,
 				smartIndent: true,
 				indentUnit: 4,
@@ -1504,10 +1504,10 @@
 	}
 
 	enableLastClickedCellHighlight();
-    function enableTableCellSelection(tableSelector = 'table') {
-        const selectedCells = new Set();
-        let anchorCell = null;
-        GM_addStyle(`
+	function enableTableCellSelection(tableSelector = 'table') {
+		const selectedCells = new Set();
+		let anchorCell = null;
+		GM_addStyle(`
             ${tableSelector} th.yogi-selected-cell,
             ${tableSelector} td.yogi-selected-cell {
                 background: #87bfff !important;
@@ -1519,120 +1519,120 @@
                 box-shadow: inset 0 0 0 3px #003f7f !important;
             }
         `);
-        function clearSelection() {
-            selectedCells.forEach(cell => cell.classList.remove('yogi-selected-cell', 'yogi-selection-anchor'));
-            selectedCells.clear();
-        }
-        function selectCell(cell) {
-            selectedCells.add(cell);
-            cell.classList.add('yogi-selected-cell');
-        }
-        function setAnchor(cell) {
-            document.querySelectorAll('.yogi-selection-anchor').forEach(el => el.classList.remove('yogi-selection-anchor'));
-            anchorCell = cell;
-            cell.classList.add('yogi-selection-anchor');
-        }
-        function getRows(table) {
-            return Array.from(table.querySelectorAll('thead tr, tbody tr, tfoot tr'));
-        }
-        function getPosition(cell) {
-            const table = cell.closest(tableSelector);
-            if (!table) return null;
-            const rows = getRows(table);
-            const rowIndex = rows.indexOf(cell.parentElement);
-            return rowIndex < 0 ? null : { table, rows, rowIndex, columnIndex: cell.cellIndex };
-        }
-        function selectRectangle(fromCell, toCell, additive) {
-            const from = getPosition(fromCell), to = getPosition(toCell);
-            if (!from || !to || from.table !== to.table) return;
-            if (!additive) clearSelection();
-            for (let r = Math.min(from.rowIndex, to.rowIndex); r <= Math.max(from.rowIndex, to.rowIndex); r++) {
-                for (let c = Math.min(from.columnIndex, to.columnIndex); c <= Math.max(from.columnIndex, to.columnIndex); c++) {
-                    const cell = from.rows[r]?.cells[c];
-                    if (cell) selectCell(cell);
-                }
-            }
-        }
-        function getCellText(cell) {
-            const sub = cell.querySelector('.subcelldiv');
-            return (sub ? sub.innerText : cell.innerText).replace(/\\r?\\n/g, ' ').trim();
-        }
-        async function copySelection() {
-            const live = Array.from(selectedCells).filter(cell => cell.isConnected);
-            if (!live.length) return;
-            const blocks = [];
-            for (const table of [...new Set(live.map(cell => cell.closest(tableSelector)))]) {
-                const rows = getRows(table);
-                const cells = live.filter(cell => cell.closest(tableSelector) === table);
-                const positions = cells.map(cell => getPosition(cell));
-                const minRow = Math.min(...positions.map(p => p.rowIndex));
-                const maxRow = Math.max(...positions.map(p => p.rowIndex));
-                const minCol = Math.min(...positions.map(p => p.columnIndex));
-                const maxCol = Math.max(...positions.map(p => p.columnIndex));
-                const chosen = new Set(cells), lines = [];
-                for (let r = minRow; r <= maxRow; r++) {
-                    const values = [];
-                    for (let c = minCol; c <= maxCol; c++) {
-                        const cell = rows[r]?.cells[c];
-                        values.push(cell && chosen.has(cell) ? getCellText(cell) : '');
-                    }
-                    lines.push(values.join('\	'));
-                }
-                blocks.push(lines.join('\n'));
-            }
-            await navigator.clipboard.writeText(blocks.join('\\n\\n'));
-        }
-        // Capture phase prevents DataTables/site handlers from sorting Ctrl-clicked headers.
-        document.addEventListener('click', event => {
-            const cell = event.target.closest(`${tableSelector} th, ${tableSelector} td`);
-            if (!cell || (!event.ctrlKey && !event.shiftKey)) return;
-            if (event.target instanceof HTMLAnchorElement) return;
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            if (event.shiftKey && anchorCell?.isConnected) {
-                selectRectangle(anchorCell, cell, event.ctrlKey);
-                anchorCell.classList.add('yogi-selection-anchor');
-            } else if (event.ctrlKey) {
-                if (selectedCells.has(cell)) {
-                    selectedCells.delete(cell);
-                    cell.classList.remove('yogi-selected-cell', 'yogi-selection-anchor');
-                    if (anchorCell === cell) anchorCell = null;
-                } else {
-                    selectCell(cell);
-                    setAnchor(cell);
-                }
-            }
-        }, true);
-        ['pointerdown', 'mousedown'].forEach(type => document.addEventListener(type, event => {
-            const cell = event.target.closest(`${tableSelector} th, ${tableSelector} td`);
-            if (cell && event.ctrlKey) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }
-        }, true));
-        document.addEventListener('keydown', event => {
-            if (!(event.ctrlKey && event.key.toLowerCase() === 'c') || !selectedCells.size) return;
-            if (document.activeElement?.matches('input, textarea, [contenteditable="true"], .CodeMirror textarea')) return;
-            event.preventDefault();
-            copySelection().catch(error => console.error('Could not copy selected cells:', error));
-        }, true);
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && selectedCells.size) {
-                clearSelection();
-                anchorCell = null;
-            }
-        });
-    }
-    enableTableCellSelection();
-    function openAnalytics(searchTermForAnalyticsName) {
-        runQuery(`select ANALYTICSKEY from analyticsconfiges where analyticsname LIKE "%${searchTermForAnalyticsName}%" limit 1`).then(data => {
-            const analyticsKey = data[0]?.ANALYTICSKEY;
-            if (!analyticsKey) alert('BAU Actionable Report not found');
-            const url = `/ECM/analyticsConfigES/show/${analyticsKey}`;
-            window.open(url, "_blank");
-        })
-    }
-    // GLOBAL FUNCTIONS END --FENDD
+		function clearSelection() {
+			selectedCells.forEach(cell => cell.classList.remove('yogi-selected-cell', 'yogi-selection-anchor'));
+			selectedCells.clear();
+		}
+		function selectCell(cell) {
+			selectedCells.add(cell);
+			cell.classList.add('yogi-selected-cell');
+		}
+		function setAnchor(cell) {
+			document.querySelectorAll('.yogi-selection-anchor').forEach(el => el.classList.remove('yogi-selection-anchor'));
+			anchorCell = cell;
+			cell.classList.add('yogi-selection-anchor');
+		}
+		function getRows(table) {
+			return Array.from(table.querySelectorAll('thead tr, tbody tr, tfoot tr'));
+		}
+		function getPosition(cell) {
+			const table = cell.closest(tableSelector);
+			if (!table) return null;
+			const rows = getRows(table);
+			const rowIndex = rows.indexOf(cell.parentElement);
+			return rowIndex < 0 ? null : { table, rows, rowIndex, columnIndex: cell.cellIndex };
+		}
+		function selectRectangle(fromCell, toCell, additive) {
+			const from = getPosition(fromCell), to = getPosition(toCell);
+			if (!from || !to || from.table !== to.table) return;
+			if (!additive) clearSelection();
+			for (let r = Math.min(from.rowIndex, to.rowIndex); r <= Math.max(from.rowIndex, to.rowIndex); r++) {
+				for (let c = Math.min(from.columnIndex, to.columnIndex); c <= Math.max(from.columnIndex, to.columnIndex); c++) {
+					const cell = from.rows[r]?.cells[c];
+					if (cell) selectCell(cell);
+				}
+			}
+		}
+		function getCellText(cell) {
+			const sub = cell.querySelector('.subcelldiv');
+			return (sub ? sub.innerText : cell.innerText).replace(/\\r?\\n/g, ' ').trim();
+		}
+		async function copySelection() {
+			const live = Array.from(selectedCells).filter(cell => cell.isConnected);
+			if (!live.length) return;
+			const blocks = [];
+			for (const table of [...new Set(live.map(cell => cell.closest(tableSelector)))]) {
+				const rows = getRows(table);
+				const cells = live.filter(cell => cell.closest(tableSelector) === table);
+				const positions = cells.map(cell => getPosition(cell));
+				const minRow = Math.min(...positions.map(p => p.rowIndex));
+				const maxRow = Math.max(...positions.map(p => p.rowIndex));
+				const minCol = Math.min(...positions.map(p => p.columnIndex));
+				const maxCol = Math.max(...positions.map(p => p.columnIndex));
+				const chosen = new Set(cells), lines = [];
+				for (let r = minRow; r <= maxRow; r++) {
+					const values = [];
+					for (let c = minCol; c <= maxCol; c++) {
+						const cell = rows[r]?.cells[c];
+						values.push(cell && chosen.has(cell) ? getCellText(cell) : '');
+					}
+					lines.push(values.join('\	'));
+				}
+				blocks.push(lines.join('\n'));
+			}
+			await navigator.clipboard.writeText(blocks.join('\\n\\n'));
+		}
+		// Capture phase prevents DataTables/site handlers from sorting Ctrl-clicked headers.
+		document.addEventListener('click', event => {
+			const cell = event.target.closest(`${tableSelector} th, ${tableSelector} td`);
+			if (!cell || (!event.ctrlKey && !event.shiftKey)) return;
+			if (event.target instanceof HTMLAnchorElement) return;
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			if (event.shiftKey && anchorCell?.isConnected) {
+				selectRectangle(anchorCell, cell, event.ctrlKey);
+				anchorCell.classList.add('yogi-selection-anchor');
+			} else if (event.ctrlKey) {
+				if (selectedCells.has(cell)) {
+					selectedCells.delete(cell);
+					cell.classList.remove('yogi-selected-cell', 'yogi-selection-anchor');
+					if (anchorCell === cell) anchorCell = null;
+				} else {
+					selectCell(cell);
+					setAnchor(cell);
+				}
+			}
+		}, true);
+		['pointerdown', 'mousedown'].forEach(type => document.addEventListener(type, event => {
+			const cell = event.target.closest(`${tableSelector} th, ${tableSelector} td`);
+			if (cell && event.ctrlKey) {
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+		}, true));
+		document.addEventListener('keydown', event => {
+			if (!(event.ctrlKey && event.key.toLowerCase() === 'c') || !selectedCells.size) return;
+			if (document.activeElement?.matches('input, textarea, [contenteditable="true"], .CodeMirror textarea')) return;
+			event.preventDefault();
+			copySelection().catch(error => console.error('Could not copy selected cells:', error));
+		}, true);
+		document.addEventListener('keydown', event => {
+			if (event.key === 'Escape' && selectedCells.size) {
+				clearSelection();
+				anchorCell = null;
+			}
+		});
+	}
+	enableTableCellSelection();
+	function openAnalytics(searchTermForAnalyticsName) {
+		runQuery(`select ANALYTICSKEY from analyticsconfiges where analyticsname LIKE "%${searchTermForAnalyticsName}%" limit 1`).then(data => {
+			const analyticsKey = data[0]?.ANALYTICSKEY;
+			if (!analyticsKey) alert('BAU Actionable Report not found');
+			const url = `/ECM/analyticsConfigES/show/${analyticsKey}`;
+			window.open(url, "_blank");
+		})
+	}
+	// GLOBAL FUNCTIONS END --FENDD
 	// NEO UI DOESN'T PLAY WELL, SO BELOW STUFF DOESNT APPLY FOR NEO STYLED PAGES:
 	if (!window.location.href.includes('ECM/workflowmanagement/createrequest')
 		&& !window.location.href.includes('ECM/jbpmworkflowmanagement/showrequestdetails')
@@ -1966,9 +1966,9 @@
 									// Insert after the alert div
 									analyticsDiv.insertAdjacentElement("afterend", analyticsCountsDiv);
 								}
-                                // runAnalyticsQuery(extendedQuery, query);
+								// runAnalyticsQuery(extendedQuery, query);
 								const analyticsCountQuery = `select count(*) as RECORD_COUNT from (${query}) as t`;
-                                runAnalyticsQueryForCount(analyticsCountQuery, extendedQuery);
+								runAnalyticsQueryForCount(analyticsCountQuery, extendedQuery);
 							} else {
 								console.error("Unknown error in run query");
 								recordCountSpan.textContent = "(Total Records: Error Running Query)";
@@ -2145,6 +2145,22 @@
 									const tdSubDiv = document.createElement('div');
 									tdSubDiv.classList.add('subcelldiv');
 									tdSubDiv.innerHTML = cell.innerHTML.replaceAll('///', '<br>');
+									if (cell.textContent.includes('],')) {
+										const rows = cell.textContent
+											.replace(/^\[|\]$/g, '')
+											.split(/\],\s*/)
+											.map(item => {
+												const colonIndex = item.indexOf(':');
+												const key = item.substring(0, colonIndex).trim();
+												const value = item.substring(colonIndex + 1).trim() + ']';
+												return `<tr><td>${key}</td><td>${value}</td></tr>`;
+											})
+											.join('');
+	
+										tdSubDiv.innerHTML = `<table>${rows}</table>`;
+									}
+									// console.log(tdSubDiv.textContent);
+
 									// cell text helps with setting widths of cells but too long and it makes table scroll too much to right so trimming text to first '—' (remove everything after) or first 100 chars
 									if (cell.textContent.includes('—')) {
 										cell.textContent = cell.textContent.substring(0, cell.textContent.indexOf('—'));
@@ -2342,12 +2358,12 @@
 
 				queryArea.parentNode.insertBefore(datalist, queryArea);
 				queryArea.parentNode.insertBefore(textField, queryArea);
-                const suggestions = document.createElement('div');
-                suggestions.id = 'renameTabSuggestions';
-                suggestions.setAttribute('role', 'listbox');
-                suggestions.hidden = true;
-                textField.insertAdjacentElement('afterend', suggestions);
-                GM_addStyle(`
+				const suggestions = document.createElement('div');
+				suggestions.id = 'renameTabSuggestions';
+				suggestions.setAttribute('role', 'listbox');
+				suggestions.hidden = true;
+				textField.insertAdjacentElement('afterend', suggestions);
+				GM_addStyle(`
                         #renameTabSuggestions {
                         position: fixed;
                             z-index: 10000;
@@ -2370,98 +2386,98 @@
                             background: #0060ff1f;
                         }
                     `);
-                let selectedSuggestionIndex = -1;
-                function hideSuggestions() {
-                    suggestions.hidden = true;
-                    selectedSuggestionIndex = -1;
-                }
-                function selectSuggestion(name) {
-                    textField.value = name;
-                    hideSuggestions();
+				let selectedSuggestionIndex = -1;
+				function hideSuggestions() {
+					suggestions.hidden = true;
+					selectedSuggestionIndex = -1;
+				}
+				function selectSuggestion(name) {
+					textField.value = name;
+					hideSuggestions();
+					textField.focus();
+				}
+				function markQueryAsUsed(name) {
+					const index = getSavedQueriesIndex();
+					const entry = index.find(item => item.key === name);
+					if (!entry) return;
+					const updatedIndex = index.filter(item => item.key !== name);
+					updatedIndex.push({ key: name, savedAt: Date.now() });
+					GM_setValue(SAVED_QUERIES_KEY, JSON.stringify(updatedIndex));
+				}
+				function positionSuggestions() {
+					const fieldBounds = textField.getBoundingClientRect();
+					suggestions.style.left = `${fieldBounds.left}px`;
+					suggestions.style.top = `${fieldBounds.bottom}px`;
+					suggestions.style.width = `${fieldBounds.width}px`;
+				}
+				function renderSuggestions() {
+					const value = textField.value.trim();
+					const names = value ? getMatchingTabNames(value).slice(0, 15) : [];
+					suggestions.replaceChildren();
+					selectedSuggestionIndex = -1;
+					if (!names.length) {
+						hideSuggestions();
+						return;
+					}
+					names.forEach((name, index) => {
+						const option = document.createElement('button');
+						option.type = 'button';
+						option.textContent = name;
+						option.setAttribute('role', 'option');
+						option.addEventListener('mousedown', event => event.preventDefault());
+						option.addEventListener('click', () => selectSuggestion(name));
+						suggestions.appendChild(option);
+					});
+					positionSuggestions();
+					suggestions.hidden = false;
+				}
+				function updateSelectedSuggestion() {
+					const options = suggestions.querySelectorAll('button');
+					options.forEach((option, index) => {
+						option.setAttribute('aria-selected', String(index === selectedSuggestionIndex));
+					});
+				}
 				textField.focus();
-                }
-                function markQueryAsUsed(name) {
-                    const index = getSavedQueriesIndex();
-                    const entry = index.find(item => item.key === name);
-                    if (!entry) return;
-                    const updatedIndex = index.filter(item => item.key !== name);
-                    updatedIndex.push({ key: name, savedAt: Date.now() });
-                    GM_setValue(SAVED_QUERIES_KEY, JSON.stringify(updatedIndex));
-                }
-                function positionSuggestions() {
-                    const fieldBounds = textField.getBoundingClientRect();
-                    suggestions.style.left = `${fieldBounds.left}px`;
-                    suggestions.style.top = `${fieldBounds.bottom}px`;
-                    suggestions.style.width = `${fieldBounds.width}px`;
-                }
-                function renderSuggestions() {
-                    const value = textField.value.trim();
-                    const names = value ? getMatchingTabNames(value).slice(0, 15) : [];
-                    suggestions.replaceChildren();
-                    selectedSuggestionIndex = -1;
-                    if (!names.length) {
-                        hideSuggestions();
-                        return;
-                    }
-                    names.forEach((name, index) => {
-                        const option = document.createElement('button');
-                        option.type = 'button';
-                        option.textContent = name;
-                        option.setAttribute('role', 'option');
-                        option.addEventListener('mousedown', event => event.preventDefault());
-                        option.addEventListener('click', () => selectSuggestion(name));
-                        suggestions.appendChild(option);
-                    });
-                    positionSuggestions();
-                    suggestions.hidden = false;
-                }
-                function updateSelectedSuggestion() {
-                    const options = suggestions.querySelectorAll('button');
-                    options.forEach((option, index) => {
-                        option.setAttribute('aria-selected', String(index === selectedSuggestionIndex));
-                    });
-                }
-                textField.focus();
 				textField.addEventListener('input', () => {
-                    renderSuggestions();
+					renderSuggestions();
 				});
 
 				textField.addEventListener('keydown', (event) => {
-                    const options = suggestions.querySelectorAll('button');
-                    if (event.key === 'ArrowDown' && options.length) {
-                        event.preventDefault();
-                        selectedSuggestionIndex = (selectedSuggestionIndex + 1) % options.length;
-                        updateSelectedSuggestion();
-                        return;
-                    }
-                    if (event.key === 'ArrowUp' && options.length) {
-                        event.preventDefault();
-                        selectedSuggestionIndex = (selectedSuggestionIndex - 1 + options.length) % options.length;
-                        updateSelectedSuggestion();
-                        return;
-                    }
+					const options = suggestions.querySelectorAll('button');
+					if (event.key === 'ArrowDown' && options.length) {
+						event.preventDefault();
+						selectedSuggestionIndex = (selectedSuggestionIndex + 1) % options.length;
+						updateSelectedSuggestion();
+						return;
+					}
+					if (event.key === 'ArrowUp' && options.length) {
+						event.preventDefault();
+						selectedSuggestionIndex = (selectedSuggestionIndex - 1 + options.length) % options.length;
+						updateSelectedSuggestion();
+						return;
+					}
 					if (event.key === 'Enter') {
 						event.preventDefault();
 						event.stopPropagation();
-                        const name = selectedSuggestionIndex >= 0
-                            ? options[selectedSuggestionIndex].textContent
-                            : textField.value.trim() || 'Untitled';
+						const name = selectedSuggestionIndex >= 0
+							? options[selectedSuggestionIndex].textContent
+							: textField.value.trim() || 'Untitled';
 						const savedQuery = loadQueryFromStorage(name);
-                        hideSuggestions();
+						hideSuggestions();
 						commitRename(name, savedQuery);
-                    } else if (event.key === 'Escape') {
-                        hideSuggestions();
+					} else if (event.key === 'Escape') {
+						hideSuggestions();
 					}
 				});
-                document.addEventListener('click', event => {
-                    if (event.target !== textField && !suggestions.contains(event.target)) {
-                        hideSuggestions();
-                    }
-                });
+				document.addEventListener('click', event => {
+					if (event.target !== textField && !suggestions.contains(event.target)) {
+						hideSuggestions();
+					}
+				});
 				function commitRename(name, queryToLoad) {
-                    textField.value = name;
+					textField.value = name;
 					document.title = "💾 " + name;
-                    markQueryAsUsed(name);
+					markQueryAsUsed(name);
 					if (queryToLoad !== null && queryToLoad !== undefined) {
 						const queryArea = document.querySelector('textarea#queryArea');
 						if (queryArea) queryArea.value = queryToLoad.trimStart();
@@ -4053,32 +4069,32 @@
 				document.title = "🛡️ " + pageTitleElement.textContent;
 			}
 			// make connection links clickable
-            // uses the REST api calls which are not called by the UI normally
-            // const labelElements = document.querySelectorAll('label');
-            // labelElements.forEach(label => {
-            // 	if (!label.textContent.includes("Connection")) return;
-            // 	const connectionDropdown = label.parentNode.querySelector('.select2-chosen');
-            // 	if (connectionDropdown && connectionDropdown.textContent !== "Select Connection") {
-            // 		const connectionName = connectionDropdown.textContent;
-            // 		fetch(baseUrl + '/ECM/api/v5/getConnectionDetails', {
-            // 			method: 'POST',
-            // 			headers: {
-            // 				'Content-Type': 'application/json',
-            // 				'Authorization': 'Bearer ' + getAccessToken()
-            // 			},
-            // 			body: JSON.stringify({ connectionname: connectionName })
-            // 		}).then(response => response.json())
-            // 			.then(data => {
-            // 				if (data && data.connectionkey) {
-            // 					const link = document.createElement('a');
-            // 					link.href = '/ECM/ecmConfig/addnewconnection/' + data.connectionkey;
-            // 					link.textContent = label.textContent;
-            // 					label.innerHTML = '';
-            // 					label.appendChild(link);
-            // 				}
-            // 			})
-            // 	}
-            // });
+			// uses the REST api calls which are not called by the UI normally
+			// const labelElements = document.querySelectorAll('label');
+			// labelElements.forEach(label => {
+			// 	if (!label.textContent.includes("Connection")) return;
+			// 	const connectionDropdown = label.parentNode.querySelector('.select2-chosen');
+			// 	if (connectionDropdown && connectionDropdown.textContent !== "Select Connection") {
+			// 		const connectionName = connectionDropdown.textContent;
+			// 		fetch(baseUrl + '/ECM/api/v5/getConnectionDetails', {
+			// 			method: 'POST',
+			// 			headers: {
+			// 				'Content-Type': 'application/json',
+			// 				'Authorization': 'Bearer ' + getAccessToken()
+			// 			},
+			// 			body: JSON.stringify({ connectionname: connectionName })
+			// 		}).then(response => response.json())
+			// 			.then(data => {
+			// 				if (data && data.connectionkey) {
+			// 					const link = document.createElement('a');
+			// 					link.href = '/ECM/ecmConfig/addnewconnection/' + data.connectionkey;
+			// 					link.textContent = label.textContent;
+			// 					label.innerHTML = '';
+			// 					label.appendChild(link);
+			// 				}
+			// 			})
+			// 	}
+			// });
 		} else if (window.location.href.includes("ECM/endpoints/show")) {
 			// --e-- --ep--
 			GM_addStyle(`.modal.fade.in {width: 800px !important;}
