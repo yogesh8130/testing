@@ -42,3 +42,9 @@ To update one, replace its file(s) in `lib/` (`npm pack <name>` and copy from `d
 * Content scripts run in an isolated world: they can't see the page's `$`, `jQuery` or its global functions.
   If you need one, add an allow-listed operation to `src/page-bridge.js` and call it via `gm-shim.js`.
 * The script runs in all frames of the matched sites, as the userscript did.
+
+## Tab management
+
+Click the Saviynt UI Improvements extension icon in the Edge toolbar to enable or disable **Open beside active tab**. The popup updates immediately and can open the full **All settings** page.
+
+The setting is enabled by default.

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Saviynt UI Improvements — Settings</title>
+	<style>
+		:root { color-scheme: light dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+		body { max-width: 680px; margin: 32px auto; padding: 0 20px; }
+		.setting { display: flex; align-items: flex-start; gap: 12px; }
+		.setting input { width: 18px; height: 18px; margin: 3px 0 0; }
+		.setting label { cursor: pointer; }
+		.description { display: block; margin-top: 6px; color: #666; }
+		.status { min-height: 20px; margin-top: 16px; color: #16825d; }
+	</style>
+</head>
+<body>
+	<h1>Tab management</h1>
+	<div class="setting">
+		<input id="tab-manager-enabled" type="checkbox">
+		<label for="tab-manager-enabled">
+			Open new tabs next to the active tab
+			<span class="description">Applies to new tabs created by actions such as Ctrl+T.</span>
+		</label>
+	</div>
+	<div id="status" class="status" role="status"></div>
+	<script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+:root {
+	color-scheme: light dark;
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+	width: 300px;
+	margin: 0;
+	background: Canvas;
+	color: CanvasText;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px 10px;
+	font-size: 14px;
+}
+
+.state {
+	font-size: 12px;
+	color: #16825d;
+}
+
+.setting {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 12px 16px 14px;
+	cursor: pointer;
+}
+
+.setting strong,
+.setting small {
+	display: block;
+}
+
+.setting strong {
+	font-size: 13px;
+}
+
+.setting small {
+	margin-top: 4px;
+	color: GrayText;
+	font-size: 12px;
+}
+
+.setting input {
+	appearance: none;
+	position: relative;
+	flex: 0 0 auto;
+	width: 38px;
+	height: 22px;
+	margin: 0;
+	border-radius: 11px;
+	background: #777;
+	cursor: pointer;
+}
+
+.setting input::before {
+	content: "";
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	top: 3px;
+	left: 3px;
+	border-radius: 50%;
+	background: white;
+	transition: transform 120ms ease;
+}
+
+.setting input:checked {
+	background: #16825d;
+}
+
+.setting input:checked::before {
+	transform: translateX(16px);
+}
+
+footer {
+	border-top: 1px solid rgba(127, 127, 127, 0.25);
+	padding: 8px;
+	text-align: right;
+}
+
+button {
+	border: 0;
+	border-radius: 4px;
+	padding: 7px 9px;
+	background: transparent;
+	color: LinkText;
+	cursor: pointer;
+}
+
+button:hover {
+	background: rgba(127, 127, 127, 0.15);
+}

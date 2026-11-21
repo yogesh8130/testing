@@ -4,7 +4,15 @@
   "version": "2026.9.19",
   "description": "Makes the Saviynt UI better optimized for non-touch devices.",
   "minimum_chrome_version": "111",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
+  "background": {
+    "service_worker": "src/tab-manager.js"
+  },
+  "options_page": "src/options.html",
+  "action": {
+    "default_title": "Saviynt UI Improvements",
+    "default_popup": "src/popup.html"
+  },
   "content_scripts": [
     {
       "matches": [
