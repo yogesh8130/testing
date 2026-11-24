@@ -4344,6 +4344,63 @@
 				}
 			}
 
+			async function annotateHistoryWithImportJobs(tab) {
+				const monthIndexes = new Map([
+					['Jan', 0], ['Feb', 1], ['Mar', 2], ['Apr', 3], ['May', 4], ['Jun', 5],
+					['Jul', 6], ['Aug', 7], ['Sep', 8], ['Oct', 9], ['Nov', 10], ['Dec', 11]
+				]);
+				const headersByTimestamp = new Map();
+
+				tab.querySelectorAll('.panel-heading[data-toggle="collapse"] h4.panel-title').forEach(header => {
+					if (header.dataset.jobSourceChecked) return;
+					const displayedTimestamp = header.querySelector('.UTCDATETIME')?.textContent.trim();
+					const match = displayedTimestamp?.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+					if (!match || !monthIndexes.has(match[2])) return;
+
+					const localDate = new Date(
+						Number(match[3]), monthIndexes.get(match[2]), Number(match[1]),
+						Number(match[4]), Number(match[5]), Number(match[6])
+					);
+					const localTimestamp = localDate.getTime();
+					const databaseTimestamp = localDate.toISOString().slice(0, 19).replace('T', ' ');
+
+					if (!headersByTimestamp.has(databaseTimestamp)) {
+						headersByTimestamp.set(databaseTimestamp, { localTimestamp, headers: [] });
+					}
+					headersByTimestamp.get(databaseTimestamp).headers.push(header);
+				});
+
+				const latestTimestamps = [...headersByTimestamp.entries()]
+					.sort((a, b) => b[1].localTimestamp - a[1].localTimestamp)
+					.slice(0, 100);
+				if (!latestTimestamps.length) return;
+
+				const query = latestTimestamps.map(([timestamp]) => `select '${timestamp}' as datetimestamp, group_concat(distinct j.triggername) as jobname from ecmimportjob j where '${timestamp}' between j.jobstartdate and j.jobenddate and j.jobname = 'UserImportJob'`).join(' union all ');
+
+				try {
+					const results = await runQuery(query);
+					const jobsByTimestamp = new Map(results.map(row => [
+						String(row.DATETIMESTAMP ?? row.datetimestamp).trim(),
+						row.JOBNAME ?? row.jobname
+					]));
+
+					latestTimestamps.forEach(([timestamp, { headers }]) => {
+						const jobName = jobsByTimestamp.get(timestamp);
+						headers.forEach(header => {
+							header.dataset.jobSourceChecked = 'true';
+							if (jobName && !header.querySelector('.history-job-source')) {
+								const jobLabel = document.createElement('span');
+								jobLabel.className = 'history-job-source';
+								jobLabel.textContent = ` (Job: ${jobName})`;
+								header.appendChild(jobLabel);
+							}
+						});
+					});
+				} catch (error) {
+					console.error('Could not look up jobs for user history:', error);
+				}
+			}
+
 			addJumpToUsrFields();
 
 			// make manager and secondary manager inputs open the respective user page on click
@@ -4402,6 +4459,8 @@
 						// 	})
 						// }
 						if (node.id === 'tab_1_12') {
+							// User history page detected
+							annotateHistoryWithImportJobs(node);
 							// Highlight important changes in user history like statuskey changes
 							applyHighlights(".panel-collapse table td:nth-child(1), .panel-collapse table td:nth-child(2), .panel-collapse table td:nth-child(3)", [
 								{ word: "email", highlightName: "magentaHighlight", whole: true },
